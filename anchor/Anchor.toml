@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-degenpoker = "AsjZ3kWAUSQRNt2pZVeJkywhZ6gpLpHZmJjduPmKZDZZ"
+degenpoker = "4LubQAXySSXWDY8CL6pirr2UJYedPSxnmvVYiXupN81y"
 
 [registry]
 url = "https://api.apr.dev"
