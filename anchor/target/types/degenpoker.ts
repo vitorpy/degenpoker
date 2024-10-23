@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/degenpoker.json`.
  */
 export type Degenpoker = {
-  "address": "AsjZ3kWAUSQRNt2pZVeJkywhZ6gpLpHZmJjduPmKZDZZ",
+  "address": "4LubQAXySSXWDY8CL6pirr2UJYedPSxnmvVYiXupN81y",
   "metadata": {
     "name": "degenpoker",
     "version": "0.1.0",
@@ -14,52 +14,186 @@ export type Degenpoker = {
   },
   "instructions": [
     {
-      "name": "close",
+      "name": "delegate",
+      "docs": [
+        "Delegate the account to the delegation program"
+      ],
       "discriminator": [
-        98,
-        165,
-        201,
-        177,
-        108,
-        65,
-        206,
-        96
+        90,
+        147,
+        75,
+        178,
+        85,
+        88,
+        4,
+        137
       ],
       "accounts": [
         {
           "name": "payer",
-          "writable": true,
           "signer": true
         },
         {
-          "name": "degenpoker",
+          "name": "pda",
+          "docs": [
+            "CHECK The pda to delegate"
+          ],
           "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "decrement",
-      "discriminator": [
-        106,
-        227,
-        168,
-        59,
-        248,
-        27,
-        150,
-        101
-      ],
-      "accounts": [
+        },
         {
-          "name": "degenpoker",
-          "writable": true
+          "name": "ownerProgram",
+          "address": "4LubQAXySSXWDY8CL6pirr2UJYedPSxnmvVYiXupN81y"
+        },
+        {
+          "name": "buffer",
+          "docs": [
+            "CHECK The temporary buffer account used during delegation"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  49,
+                  172,
+                  144,
+                  55,
+                  200,
+                  40,
+                  142,
+                  33,
+                  212,
+                  32,
+                  17,
+                  25,
+                  214,
+                  192,
+                  0,
+                  65,
+                  166,
+                  10,
+                  251,
+                  204,
+                  85,
+                  123,
+                  76,
+                  56,
+                  226,
+                  111,
+                  26,
+                  56,
+                  67,
+                  156,
+                  112,
+                  236
+                ]
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegationProgram"
+            }
+          }
+        },
+        {
+          "name": "delegationRecord",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegationProgram"
+            }
+          }
+        },
+        {
+          "name": "delegationMetadata",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegationProgram"
+            }
+          }
+        },
+        {
+          "name": "delegationProgram",
+          "address": "DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
       "name": "increment",
+      "docs": [
+        "Increment the counter."
+      ],
       "discriminator": [
         11,
         18,
@@ -72,14 +206,142 @@ export type Degenpoker = {
       ],
       "accounts": [
         {
-          "name": "degenpoker",
-          "writable": true
+          "name": "counter",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  115,
+                  116,
+                  45,
+                  112,
+                  100,
+                  97
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "incrementAndCommit",
+      "docs": [
+        "Increment the counter + manual commit the account in the ER."
+      ],
+      "discriminator": [
+        1,
+        27,
+        135,
+        183,
+        234,
+        124,
+        35,
+        207
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "counter",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  115,
+                  116,
+                  45,
+                  112,
+                  100,
+                  97
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "magicProgram",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magicContext",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "incrementAndUndelegate",
+      "docs": [
+        "Increment the counter + manual commit the account in the ER."
+      ],
+      "discriminator": [
+        221,
+        12,
+        62,
+        164,
+        172,
+        218,
+        159,
+        199
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "counter",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  115,
+                  116,
+                  45,
+                  112,
+                  100,
+                  97
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "magicProgram",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magicContext",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
       "name": "initialize",
+      "docs": [
+        "Initialize the counter."
+      ],
       "discriminator": [
         175,
         175,
@@ -92,12 +354,28 @@ export type Degenpoker = {
       ],
       "accounts": [
         {
-          "name": "payer",
+          "name": "counter",
           "writable": true,
-          "signer": true
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  115,
+                  116,
+                  45,
+                  112,
+                  100,
+                  97
+                ]
+              }
+            ]
+          }
         },
         {
-          "name": "degenpoker",
+          "name": "user",
           "writable": true,
           "signer": true
         },
@@ -109,34 +387,100 @@ export type Degenpoker = {
       "args": []
     },
     {
-      "name": "set",
+      "name": "processUndelegation",
       "discriminator": [
-        198,
+        196,
+        28,
+        41,
+        206,
+        48,
+        37,
         51,
-        53,
-        241,
-        116,
-        29,
-        126,
-        194
+        167
       ],
       "accounts": [
         {
-          "name": "degenpoker",
+          "name": "baseAccount",
           "writable": true
+        },
+        {
+          "name": "buffer"
+        },
+        {
+          "name": "payer",
+          "writable": true
+        },
+        {
+          "name": "systemProgram"
         }
       ],
       "args": [
         {
-          "name": "value",
-          "type": "u8"
+          "name": "accountSeeds",
+          "type": {
+            "vec": "bytes"
+          }
         }
       ]
+    },
+    {
+      "name": "undelegate",
+      "docs": [
+        "Undelegate the account from the delegation program"
+      ],
+      "discriminator": [
+        131,
+        148,
+        180,
+        198,
+        91,
+        104,
+        42,
+        238
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "counter",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  115,
+                  116,
+                  45,
+                  112,
+                  100,
+                  97
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "magicProgram",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magicContext",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
     {
-      "name": "degenpoker",
+      "name": "counter",
       "discriminator": [
         255,
         176,
@@ -151,13 +495,13 @@ export type Degenpoker = {
   ],
   "types": [
     {
-      "name": "degenpoker",
+      "name": "counter",
       "type": {
         "kind": "struct",
         "fields": [
           {
             "name": "count",
-            "type": "u8"
+            "type": "u64"
           }
         ]
       }

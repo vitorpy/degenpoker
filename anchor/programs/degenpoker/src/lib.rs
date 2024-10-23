@@ -9,7 +9,7 @@ pub const TEST_PDA_SEED: &[u8] = b"test-pda";
 
 #[delegate]
 #[program]
-pub mod anchor_counter {
+pub mod degenpoker {
     use super::*;
 
     /// Initialize the counter.
